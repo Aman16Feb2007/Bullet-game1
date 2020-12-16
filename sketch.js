@@ -7,42 +7,42 @@ function setup() {
   bullet =createSprite(50, 200, 50, 50);
   bullet.shapeColor = "black";
 
-  wall = createSprite(1200,200,10,200);
-  wall.shapeColor = rgb(80,80,80);    
+  thickness = Math.round(random(22,83));
 
-  speed = Math.round(random(55,90));
+  wall = createSprite(1200,200,thickness,200);
+  wall.shapeColor = rgb(80,80,80);
+
+  speed = Math.round(random(223,321));
   
-  weight = Math.round(random(400,1500));
+  weight = Math.round(random(30,52));
   bullet.velocityX = speed;
+
+  
+
 }
 
 function draw() {
   background("yellow");
 
-  deformation = Math.round(0.5*weight*speed*speed/22500);
+  damage = Math.round((0.5*weight*speed*speed)/(thickness*thickness*thickness));
 
-  if (wall.x-bullet.x<wall.width/2+bullet.width/2) {
+  if (Touch(wall,bullet)) {
     bullet.velocityX = 0; 
-    if(deformation > 180){
-bullet.shapeColor = "red";
+    if(damage > 10){
+    wall.shapeColor = "red";
     }
-    
-    if (deformation < 100){
-      bullet.shapeColor = "green";
-    }
-
-    if (deformation >= 100 && deformation <= 180){
-      bullet.shapeColor = "purple";
-    }
-
-  
-  
+    else{
+      wall.shapeColor = "green";
+    }  
   }
-
   drawSprites();
+}
 
-  textSize(20);
-  text("speed "+speed,1000,20);
-  text("weight "+weight,1000,50)
-  text("deformation "+deformation,1000,80);
+function Touch(A,B){
+  if(A.x-B.x<A.width/2+B.width/2){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
